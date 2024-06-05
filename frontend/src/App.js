@@ -1,37 +1,50 @@
-import { useEffect, useState } from "react";
-import "./App.css";
+// import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import { Header, Footer } from "./components";
+import {
+  AdminPanel,
+  Authorization,
+  Main,
+  Product,
+  Registration,
+} from "./pages";
+import styled from "styled-components";
 
-function App() {
-  const [data, setData] = useState("");
+const AppColumn = styled.div`
+  margin: 0 auto;
+  width: 1200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
 
-  useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.message);
-        setData(data.message);
-      });
-  });
+const Page = styled.div`
+  box-sizing: border-box;
+  margin: 10px 0;
+  width: 100%;
+  padding: 20px;
+  height: calc(100vh - 176px);
+  background-color: #fff;
+`;
+
+export const App = () => {
+  // const [data, setData] = useState("");
+
+  // useEffect(() => {});
 
   return (
-    <div className="App">
-      <header className="App-header">
-        {data && <div>{data}</div>}
-        {/* <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a> */}
-      </header>
-    </div>
+    <AppColumn>
+      <Header />
+      <Page>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/login" element={<Authorization />} />
+          <Route path="/register" element={<Registration />} />
+          <Route path="/:id" element={<Product />} />
+          <Route path="/admin-panel" element={<AdminPanel />} />
+        </Routes>
+      </Page>
+      <Footer />
+    </AppColumn>
   );
-}
-
-export default App;
+};
