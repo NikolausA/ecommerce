@@ -23,8 +23,8 @@ const Page = styled.div`
   margin: 10px 0;
   width: 100%;
   padding: 20px;
-  height: calc(100vh - 176px);
-  background-color: #fff;
+  min-height: calc(100vh - 176px);
+  background-color: #f5f5f5;
 `;
 
 export const App = () => {
