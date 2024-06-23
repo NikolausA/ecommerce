@@ -12,8 +12,8 @@ const NavbarContainer = ({ className }) => {
   return (
     <div className={className}>
       <NavbarButton to="/">Home</NavbarButton>
-      <NavbarButton to="/product">Men</NavbarButton>
-      <NavbarButton to="/product">Women</NavbarButton>
+      <NavbarButton to="/products">Men</NavbarButton>
+      {/* <NavbarButton to="/product">Women</NavbarButton> */}
       <NavbarButton to="/admin-panel">Admin</NavbarButton>
       <StyledIcon to="/login">
         <i className="fa fa-user" />

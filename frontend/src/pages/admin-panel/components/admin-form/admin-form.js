@@ -54,6 +54,7 @@ const AdminFormContainer = ({ className }) => {
         "POST",
         formValues
       );
+      console.log(addedProduct);
     }
   };
 

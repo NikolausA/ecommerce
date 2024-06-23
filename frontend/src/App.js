@@ -6,6 +6,7 @@ import {
   Authorization,
   Main,
   Product,
+  Products,
   Registration,
 } from "./pages";
 import styled from "styled-components";
@@ -28,10 +29,6 @@ const Page = styled.div`
 `;
 
 export const App = () => {
-  // const [data, setData] = useState("");
-
-  // useEffect(() => {});
-
   return (
     <AppColumn>
       <Header />
@@ -40,7 +37,8 @@ export const App = () => {
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Authorization />} />
           <Route path="/register" element={<Registration />} />
-          <Route path="/:id" element={<Product />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<Product />} />
           <Route path="/admin-panel" element={<AdminPanel />} />
         </Routes>
       </Page>
