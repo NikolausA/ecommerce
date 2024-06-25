@@ -11,12 +11,7 @@ const ProductsContainer = ({ className }) => {
   const [page, setPage] = useState(1);
   // const dispatch = useDispatch();
   const products = useSelector(selectProducts);
-  const lastPage =
-    products.length <= PRODUCTS_PER_PAGE
-      ? 1
-      : products.length % PRODUCTS_PER_PAGE
-      ? products.length / PRODUCTS_PER_PAGE
-      : products.length / PRODUCTS_PER_PAGE + 1;
+  const lastPage = Math.ceil(products.length / PRODUCTS_PER_PAGE);
   // const filteredProducts = filterProductsForPagination(products, page, PRODUCTS_PER_PAGE);
 
   return (
