@@ -1,14 +1,37 @@
-import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  CLOSE_MODAL,
+  openModal,
+  deleteProductAsync,
+  SET_MODAL_IS_EDITING,
+  setProduct,
+} from "../../../../actions";
+import { selectProducts } from "../../../../selectors";
 import { TableRow } from "../table-row/table-row";
-import { request } from "../../../../utils";
+import styled from "styled-components";
 
 const ProductsTableContainer = ({ className }) => {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+  const products = useSelector(selectProducts);
 
-  useEffect(() => {
-    request("api/admin-panel/products").then(({ data }) => setProducts(data));
-  }, []);
+  const onHandleEdit = (id, name, category, description, price, quantity) => {
+    dispatch(setProduct({ id, name, category, description, price, quantity }));
+    dispatch(SET_MODAL_IS_EDITING);
+    dispatch(openModal({}));
+  };
+
+  const onHandleDelete = (id, name) => {
+    dispatch(
+      openModal({
+        text: `Вы действительно хотите удалить - ${name}`,
+        onConfirm: () => {
+          dispatch(deleteProductAsync(id));
+          dispatch(CLOSE_MODAL);
+        },
+        onCancel: () => dispatch(CLOSE_MODAL),
+      })
+    );
+  };
 
   return (
     <div className={className}>
@@ -23,18 +46,25 @@ const ProductsTableContainer = ({ className }) => {
         <div className="actions-column">Действия</div>
       </TableRow>
       {products ? (
-        products.map(({ id, name, category, price, quantity, imageUrl }) => (
-          <TableRow
-            isHeader={false}
-            key={id}
-            id={id}
-            name={name}
-            category={category}
-            price={price}
-            quantity={quantity}
-            imageUrl={imageUrl}
-          ></TableRow>
-        ))
+        products.map(
+          ({ _id, name, category, description, price, quantity, imageUrl }) => (
+            <TableRow
+              isHeader={false}
+              key={_id}
+              id={_id}
+              name={name}
+              category={category}
+              description={description}
+              price={price}
+              quantity={quantity}
+              imageUrl={imageUrl}
+              onHandleEdit={() =>
+                onHandleEdit(_id, name, category, description, price, quantity)
+              }
+              onHandleDelete={() => onHandleDelete(_id, name)}
+            ></TableRow>
+          )
+        )
       ) : (
         <div>no data</div>
       )}

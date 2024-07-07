@@ -4,7 +4,7 @@ const { verify } = require("../helpers/token");
 module.exports = async (req, res, next) => {
   const tokenData = verify(req.cookies.token);
 
-  const user = User.findOne({ _id: tokenData.id });
+  const user = await User.findOne({ _id: tokenData.id });
 
   if (!user) {
     res.send({ error: "Authenticated user not found" });

@@ -10,15 +10,21 @@ const TableRowContainer = ({
   id,
   name,
   category,
+  description,
   price,
   quantity,
   imageUrl,
+  onHandleEdit,
+  onHandleDelete,
 }) => {
   return (
     <div className={className}>
       <div className="id-column">{isHeader ? "id" : id}</div>
       <div className="name-column">{isHeader ? `Название` : name}</div>
       <div className="category-column">{isHeader ? `Категория` : category}</div>
+      <div className="description-column">
+        {isHeader ? `Описание` : description}
+      </div>
       <div className="price-column">{isHeader ? `Цена` : price}</div>
       <div className="quantity-column">
         {isHeader ? `Количество` : quantity}
@@ -29,8 +35,8 @@ const TableRowContainer = ({
           <span>Действия</span>
         ) : (
           <>
-            <StyledIcon className="fa fa-pencil" />
-            <StyledIcon className="fa fa-trash-o" />
+            <StyledIcon className="fa fa-pencil" onClick={onHandleEdit} />
+            <StyledIcon className="fa fa-trash-o" onClick={onHandleDelete} />
           </>
         )}
       </div>
@@ -51,6 +57,10 @@ export const TableRow = styled(TableRowContainer)`
     padding: 2px 10px;
     background-color: #fff;
     text-align: center;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   & :last-child {
@@ -61,14 +71,18 @@ export const TableRow = styled(TableRowContainer)`
   }
 
   & .id-column {
-    width: 5%;
+    width: 10%;
   }
 
   & .name-column {
-    width: 20%;
+    width: 15%;
   }
 
   & .category-column {
+    width: 10%;
+  }
+
+  & .description-column {
     width: 15%;
   }
 
@@ -77,14 +91,14 @@ export const TableRow = styled(TableRowContainer)`
   }
 
   & .quantity-column {
-    width: 15%;
+    width: 14%;
   }
 
   & .image-column {
-    width: 22%;
+    width: 18%;
   }
 
   & .actions-column {
-    width: 13%;
+    width: 8%;
   }
 `;

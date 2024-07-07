@@ -4,6 +4,7 @@ export const request = async (url, method, data) => {
   if (!(data instanceof FormData)) {
     headers["content-type"] = "application/json";
   }
+
   return fetch(url, {
     headers: headers,
     method: method || "GET",

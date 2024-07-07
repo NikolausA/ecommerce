@@ -1,20 +1,20 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
-import { addProductAsync } from "../../../../actions";
-import { request, validateForm } from "../../../../utils";
+import { validateForm } from "../../utils";
+import { CLOSE_MODAL, updateProductAsync } from "../../actions";
+import { selectProduct } from "../../selectors";
 import styled from "styled-components";
 
-const AdminFormContainer = ({ className }) => {
+const EditingFormContainer = ({ className }) => {
+  const product = useSelector(selectProduct);
   const [formValues, setFormValues] = useState({
-    name: "",
-    category: "",
-    description: "",
-    price: "",
-    quantity: "",
-    imageUrl: "",
+    name: product.name,
+    category: product.category,
+    description: product.description,
+    price: product.price,
+    quantity: product.quantity,
   });
-
   const [errorMessages, setErrorMessages] = useState({});
   const dispatch = useDispatch();
 
@@ -24,7 +24,6 @@ const AdminFormContainer = ({ className }) => {
     description: yup.string().required("Поле обязательно для заполнения"),
     price: yup.number().required("Поле обязательно для заполнения"),
     quantity: yup.number().required("Поле обязательно для заполнения"),
-    imageUrl: yup.string().required("Поле обязательно для заполнения"),
   });
 
   const handleChange = ({ target }) => {
@@ -35,54 +34,35 @@ const AdminFormContainer = ({ className }) => {
     setErrorMessages({ ...errorMessages, [name]: error });
   };
 
-  const onBlurHandler = ({ target }) => {
-    const { name, value } = target;
-
-    const error = validateForm(formSchema, name, value);
-    setErrorMessages({ ...errorMessages, [name]: error });
+  const onCancel = () => {
+    dispatch(CLOSE_MODAL);
   };
 
-  const uploadFileHandler = async ({ target }) => {
-    const imageFile = target.files[0];
-    const formData = new FormData();
-    formData.append("product-image", imageFile);
-    const { path } = await request("api/products/upload", "POST", formData);
-    setFormValues({ ...formValues, imageUrl: path });
-    setErrorMessages({ ...errorMessages, imageUrl: undefined });
-  };
+  const isFormValid = formSchema.isValidSync(formValues);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     if (isFormValid) {
-      dispatch(addProductAsync(formValues));
+      dispatch(updateProductAsync(product.id, formValues));
+      dispatch(CLOSE_MODAL);
     }
   };
 
-  const isFormValid = Object.values(formValues).every((value) => value !== "");
-
   return (
-    <form
-      className={className}
-      encType={"multipart/form-data"}
-      onSubmit={onSubmitHandler}
-    >
-      <h2>Форма добавления нового товара</h2>
+    <form className={className} onSubmit={onSubmitHandler}>
+      <h2>Форма редактирования - {product.name}</h2>
       <input
         type="text"
         name="name"
         value={formValues.name}
-        placeholder="Название"
         onChange={handleChange}
-        onBlur={onBlurHandler}
       />
       {errorMessages.name && <div className="error">{errorMessages.name}</div>}
       <input
         type="text"
         name="category"
         value={formValues.category}
-        placeholder="Категория"
         onChange={handleChange}
-        onBlur={onBlurHandler}
       />
       {errorMessages.category && (
         <div className="error">{errorMessages.category}</div>
@@ -90,9 +70,7 @@ const AdminFormContainer = ({ className }) => {
       <textarea
         name="description"
         value={formValues.description}
-        placeholder="Описание"
         onChange={handleChange}
-        onBlur={onBlurHandler}
       />
       {errorMessages.description && (
         <div className="error">{errorMessages.description}</div>
@@ -101,9 +79,7 @@ const AdminFormContainer = ({ className }) => {
         type="number"
         name="price"
         value={formValues.price}
-        placeholder="Цена"
         onChange={handleChange}
-        onBlur={onBlurHandler}
       />
       {errorMessages.price && (
         <div className="error">{errorMessages.price}</div>
@@ -112,34 +88,23 @@ const AdminFormContainer = ({ className }) => {
         type="number"
         name="quantity"
         value={formValues.quantity}
-        placeholder="Количество"
         onChange={handleChange}
-        onBlur={onBlurHandler}
       />
       {errorMessages.quantity && (
         <div className="error">{errorMessages.quantity}</div>
       )}
-      <input
-        type="text"
-        name="imageUrl"
-        value={formValues.imageUrl}
-        placeholder="Путь к изображению товара"
-        onChange={handleChange}
-        onBlur={onBlurHandler}
-      />
-      {errorMessages.imageUrl && (
-        <div className="error">{errorMessages.imageUrl}</div>
-      )}
-      <input type="file" name="product-image" onChange={uploadFileHandler} />
-      <button type="submit" disabled={!isFormValid}>
-        Добавить
-      </button>
+      <div className="buttons">
+        <button type="submit" disabled={!isFormValid}>
+          Сохранить
+        </button>
+        <button onClick={onCancel}>Отменить</button>
+      </div>
     </form>
   );
 };
 
-export const AdminForm = styled(AdminFormContainer)`
-  width: 25%;
+export const EditingForm = styled(EditingFormContainer)`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -170,6 +135,11 @@ export const AdminForm = styled(AdminFormContainer)`
     padding: 5px;
     font-size: 12px;
     font-family: "Roboto", sans-serif;
+  }
+
+  & .buttons {
+    display: flex;
+    justify-content: center;
   }
   & > button {
     width: fit-content;

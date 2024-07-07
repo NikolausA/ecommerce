@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectProducts } from "../../selectors";
 import { Pagination } from "../../components";
 import { ProductCard } from "./components";
-import { filterProductsForPagination } from "../../utils";
+// import { filterProductsForPagination } from "../../utils";
 import { PRODUCTS_PER_PAGE } from "../../constants";
 import styled from "styled-components";
 
@@ -12,7 +12,12 @@ const ProductsContainer = ({ className }) => {
   // const dispatch = useDispatch();
   const products = useSelector(selectProducts);
   const lastPage = Math.ceil(products.length / PRODUCTS_PER_PAGE);
-  // const filteredProducts = filterProductsForPagination(products, page, PRODUCTS_PER_PAGE);
+  // const filteredProducts = filterProductsForPagination(
+  //   products,
+  //   page,
+  //   PRODUCTS_PER_PAGE
+  // );
+  // console.log(filterProductsForPagination);
 
   return (
     <div className={className}>
