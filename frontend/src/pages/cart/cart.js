@@ -197,7 +197,7 @@ export const Cart = styled(CartContaner)`
   }
 
   & button:hover {
-    text-decoration: none;
+    /* text-decoration: none; */
     background-color: #1f0453;
   }
 `;

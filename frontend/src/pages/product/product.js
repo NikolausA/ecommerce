@@ -1,16 +1,36 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { addToCart } from "../../actions";
+import { selectProducts } from "../../selectors";
 import styled from "styled-components";
 
 const ProductContainer = ({ className }) => {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const products = useSelector(selectProducts);
+  const { name, price, description, imageUrl } = products.find(
+    (product) => product._id === id
+  );
+
+  const onAddToCartHandler = () => {
+    dispatch(addToCart({ id, name, price, quantity: 1, imageUrl }));
+  };
+
   return (
     <div className={className}>
       <div className="product-image">
-        <img src="" alt="" />
+        <img src={imageUrl} alt="" />
       </div>
       <div className="product-info">
-        <h4 className="product-name">Product name</h4>
-        <p className="product-price">Price</p>
-        <p className="product-description">Product description</p>
-        <div className="add-button">Add To Cart</div>
+        <h4 className="product-name">{name}</h4>
+        <p className="product-price">
+          {price}
+          <i className="fa fa-rub"></i>
+        </p>
+        <p className="product-description">{description}</p>
+        <div className="add-button" onClick={onAddToCartHandler}>
+          Add To Cart
+        </div>
       </div>
     </div>
   );
@@ -18,38 +38,48 @@ const ProductContainer = ({ className }) => {
 
 export const Product = styled(ProductContainer)`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   background-color: #fff;
+  padding: 15px;
 
   & .product-image {
-    width: 450px;
-    height: 450px;
-    background-color: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
   }
 
   & .product-info {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    width: 60%;
+    column-gap: 10px;
     margin-left: 30px;
   }
 
   & .product-name {
-    font-size: 1rem;
+    margin: 0;
+    font-size: 30px;
     font-weight: 500;
     line-height: 1.2;
-    color: #0c0c0c;
+    color: #484848;
   }
 
   & .product-price {
-    font-size: 1.2rem;
+    font-size: 26px;
     font-weight: 700;
     line-height: 1.2;
-    color: #0c0c0c;
+    color: #484848;
+  }
+
+  & .fa-rub {
+    margin-left: 10px;
   }
 
   & .add-button {
-    margin-top: 35px;
+    width: fit-content;
+    margin-top: 20px;
     padding: 10px 30px;
     background-color: #8019c8;
     color: #ffffff;
@@ -57,5 +87,9 @@ export const Product = styled(ProductContainer)`
     transition: all 0.3s;
     border: none;
     cursor: pointer;
+  }
+
+  & .add-button:hover {
+    background-color: #1f0453;
   }
 `;

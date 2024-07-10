@@ -18,6 +18,7 @@ const ProductCardContainer = ({ className, id, name, price, imageUrl }) => {
             className="img"
             src={`http://localhost:3002${imageUrl}`}
             alt={name}
+            height="145"
           />
         </div>
         <div className="product-info">
@@ -52,17 +53,11 @@ export const ProductCard = styled(ProductCardContainer)`
   }
 
   & .product-img {
-    display: block;
+    /* display: block;
     width: 144px;
     height: 175px;
-    background-color: lightgray;
-    margin: 45px 0;
-  }
-
-  & .img {
-    /* width: 144px;
-    height: 175px;
     background-color: lightgray; */
+    margin: 45px 0;
   }
 
   & .product-info {
@@ -96,7 +91,7 @@ export const ProductCard = styled(ProductCardContainer)`
   }
 
   & .add-button:hover {
-    text-decoration: none;
-    background-color: #6f42c1;
+    /* text-decoration: none; */
+    background-color: #1f0453;
   }
 `;
