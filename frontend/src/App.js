@@ -10,6 +10,7 @@ import {
   Product,
   Products,
   Registration,
+  Cart,
 } from "./pages";
 import { selectUser } from "./selectors";
 import { ProtectedRoute } from "./protected-route";
@@ -59,6 +60,7 @@ export const App = () => {
               </ProtectedRoute>
             }
           />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       </Page>
       <Footer />

@@ -5,6 +5,7 @@ import {
   productsReducer,
   productReducer,
   userReducer,
+  cartReducer,
 } from "./reducers";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   product: productReducer,
   user: userReducer,
   app: appReducer,
+  cart: cartReducer,
 });
 
 export const store = createStore(

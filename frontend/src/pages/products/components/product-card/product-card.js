@@ -1,7 +1,15 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../../actions";
 
 const ProductCardContainer = ({ className, id, name, price, imageUrl }) => {
+  const dispatch = useDispatch();
+
+  const onAddToCartHandler = () => {
+    dispatch(addToCart({ id, name, price, quantity: 1, imageUrl }));
+  };
+
   return (
     <div className={className}>
       <Link className="product-content" to={`/products/${id}`}>
@@ -20,7 +28,9 @@ const ProductCardContainer = ({ className, id, name, price, imageUrl }) => {
           </h5>
         </div>
       </Link>
-      <div className="add-button">Add To Cart</div>
+      <div className="add-button" onClick={onAddToCartHandler}>
+        Add To Cart
+      </div>
     </div>
   );
 };

@@ -8,3 +8,4 @@ export * from "./select-modal-on-cancel";
 export * from "./select-modal-on-confirm";
 export * from "./select-modal-text";
 export * from "./select-modal-is-editing";
+export * from "./select-products-from-cart";

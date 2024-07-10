@@ -55,6 +55,14 @@ const AdminFormContainer = ({ className }) => {
     e.preventDefault();
     if (isFormValid) {
       dispatch(addProductAsync(formValues));
+      setFormValues({
+        name: "",
+        category: "",
+        description: "",
+        price: "",
+        quantity: "",
+        imageUrl: "",
+      });
     }
   };
 

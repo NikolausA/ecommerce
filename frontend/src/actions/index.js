@@ -1,5 +1,6 @@
 export * from "./action-type";
 export * from "./add-product-async";
+export * from "./add-to-cart";
 export * from "./set-products-async";
 export * from "./set-user";
 export * from "./logout";
@@ -9,3 +10,6 @@ export * from "./delete-product-async";
 export * from "./set-modal-is-editing";
 export * from "./set-product";
 export * from "./update-product-async";
+export * from "./empty-cart";
+export * from "./increase-quantity-in-cart";
+export * from "./decrease-quantity-in-cart";
