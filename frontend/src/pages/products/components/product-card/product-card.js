@@ -53,10 +53,6 @@ export const ProductCard = styled(ProductCardContainer)`
   }
 
   & .product-img {
-    /* display: block;
-    width: 144px;
-    height: 175px;
-    background-color: lightgray; */
     margin: 45px 0;
   }
 
@@ -80,7 +76,7 @@ export const ProductCard = styled(ProductCardContainer)`
   }
 
   & .add-button {
-    margin-top: 35px;
+    margin-top: 15px;
     padding: 10px 30px;
     background-color: #8019c8;
     color: #ffffff;
@@ -91,7 +87,6 @@ export const ProductCard = styled(ProductCardContainer)`
   }
 
   & .add-button:hover {
-    /* text-decoration: none; */
     background-color: #1f0453;
   }
 `;

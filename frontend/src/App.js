@@ -27,7 +27,7 @@ const AppColumn = styled.div`
 
 const Page = styled.div`
   box-sizing: border-box;
-  margin: 10px 0;
+  margin: 75px 0 0 0;
   width: 100%;
   padding: 10px 5px;
   min-height: calc(100vh - 176px);
@@ -50,7 +50,7 @@ export const App = () => {
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Authorization />} />
           <Route path="/register" element={<Registration />} />
-          <Route path="/products" element={<Products />} />
+          <Route path="/products/category/:category" element={<Products />} />
           <Route path="/products/:id" element={<Product />} />
           <Route
             path="/admin-panel"

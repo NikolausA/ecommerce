@@ -1,31 +1,59 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { selectProducts } from "../../selectors";
 import { Pagination } from "../../components";
-import { ProductCard } from "./components";
-// import { filterProductsForPagination } from "../../utils";
+import { ProductCard, Search } from "./components";
+import { filterProducts } from "../../utils";
 import { PRODUCTS_PER_PAGE } from "../../constants";
 import styled from "styled-components";
 
 const ProductsContainer = ({ className }) => {
+  const { category } = useParams();
   const [page, setPage] = useState(1);
-  // const dispatch = useDispatch();
+  const [searchPhrase, setSearchPhrase] = useState("");
+  const [currentCategory, setCurrentCategory] = useState("");
+  if (category !== currentCategory) {
+    setCurrentCategory(category);
+    setPage(1);
+  }
   const products = useSelector(selectProducts);
-  const lastPage = Math.ceil(products.length / PRODUCTS_PER_PAGE);
-  // const filteredProducts = filterProductsForPagination(
-  //   products,
-  //   page,
-  //   PRODUCTS_PER_PAGE
-  // );
-  // console.log(filterProductsForPagination);
+  const poductsByCategory = products.filter(
+    (product) => product.category === category
+  );
+  const onChange = ({ target }) => {
+    setSearchPhrase(target.value);
+  };
+
+  const onSearchHandler = (value) => {
+    setPage(1);
+    setSearchPhrase(value);
+  };
+
+  const onResetSearch = () => {
+    setSearchPhrase("");
+  };
+
+  const { lastPage, filteredProducts } = filterProducts(
+    poductsByCategory,
+    page,
+    PRODUCTS_PER_PAGE,
+    searchPhrase
+  );
 
   return (
     <div className={className}>
-      <div className="catalog-title">
-        <h2 className="title">Men</h2>
+      <div className="catalog-header">
+        <h2 className="title">{category}</h2>
+        <Search
+          searchPhrase={searchPhrase}
+          onChange={onChange}
+          onSearchHandler={onSearchHandler}
+          onResetSearch={onResetSearch}
+        />
       </div>
       <div className="container">
-        {products.map(({ _id, name, category, price, imageUrl }) => (
+        {filteredProducts.map(({ _id, name, category, price, imageUrl }) => (
           <ProductCard
             key={_id}
             id={_id}
@@ -36,7 +64,9 @@ const ProductsContainer = ({ className }) => {
           />
         ))}
       </div>
-      <Pagination page={page} lastPage={lastPage} setPage={setPage} />
+      {lastPage > 1 && (
+        <Pagination page={page} lastPage={lastPage} setPage={setPage} />
+      )}
     </div>
   );
 };
@@ -46,9 +76,15 @@ export const Products = styled(ProductsContainer)`
   margin: 0 auto;
   padding: 0 15px;
 
+  & .catalog-header {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    column-gap: 300px;
+  }
+
   & .catalog-title {
     width: 100%;
-    margin-bottom: 45px;
     display: flex;
     justify-content: start;
   }
@@ -59,6 +95,7 @@ export const Products = styled(ProductsContainer)`
     color: #ffffff;
     font-weight: bold;
     font-size: 24px;
+    text-transform: uppercase;
   }
 
   & .container {

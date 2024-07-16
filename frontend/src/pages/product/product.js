@@ -19,7 +19,7 @@ const ProductContainer = ({ className }) => {
   return (
     <div className={className}>
       <div className="product-image">
-        <img src={imageUrl} alt="" />
+        <img src={imageUrl} alt="" height="275" />
       </div>
       <div className="product-info">
         <h4 className="product-name">{name}</h4>

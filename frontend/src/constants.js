@@ -1,4 +1,4 @@
-export const PRODUCTS_PER_PAGE = 9;
+export const PRODUCTS_PER_PAGE = 3;
 
 export const PASSWORD_REGEX =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/;

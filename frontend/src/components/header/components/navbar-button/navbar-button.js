@@ -13,7 +13,7 @@ export const NavbarButton = styled(NavLink)`
 
   &.active {
     color: #fff;
-    background-color: #8019c8;
+    background-color: #19c880;
   }
 
   &:hover {

@@ -4,11 +4,10 @@ import styled from "styled-components";
 const StyledLink = styled(Link)`
   font-size: 24px;
   font-weight: bold;
-  color: #000;
   text-transform: uppercase;
 `;
 
-const LogoContainer = ({ className }) => {
+const LogoContainer = ({ className, ...props }) => {
   return (
     <div className={className}>
       <StyledLink to="/">handtime</StyledLink>
@@ -17,6 +16,11 @@ const LogoContainer = ({ className }) => {
 };
 
 export const Logo = styled(LogoContainer)`
+  color: ${({ color = "#000" }) => color};
   padding: 5px 0;
   margin-right: 15px;
+
+  ${StyledLink} {
+    color: inherit;
+  }
 `;

@@ -35,6 +35,10 @@ export const Pagination = styled(PaginationContainer)`
     border-radius: 4px;
   }
 
+  & button:disabled {
+    background-color: grey;
+  }
+
   & .current-page {
     font-size: 1.2rem;
   }
